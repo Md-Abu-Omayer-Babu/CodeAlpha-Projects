@@ -1,6 +1,6 @@
 // In the name of Almighty Allah
 // This code is written by "Md Abu Omayer Babu"
-// CodeAlpha internship in Java Programming projects named "Student Grade Tracker"
+// CodeAlpha Internship in "Java Programming" projects named "Student Grade Tracker"
 
 import javax.swing.*;
 import java.awt.*;
