@@ -1,5 +1,6 @@
 // In the name of Almighty Allah
 // This code is written by "Md Abu Omayer Babu"
+
 // CodeAlpha Internship in "Java Programming" project named "Student Grade Tracker"
 
 import javax.swing.*;
@@ -224,7 +225,7 @@ public class StudentGradeTracker {
         gradesPanel.removeAll(); // Clear the panel before updating
         for (int i = 0; i < grades.size(); i++) {
             JPanel entryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            entryPanel.add(new JLabel(courseNames.get(i) + " (" + courseCodes.get(i) + "): " + grades.get(i)));
+            entryPanel.add(new JLabel(i + 1 + ". " + courseNames.get(i) + " (" + courseCodes.get(i) + "): " + grades.get(i)));
             JButton deleteButton = new JButton("Delete");
             int index = i;
             deleteButton.addActionListener(new ActionListener() {
@@ -328,14 +329,20 @@ public class StudentGradeTracker {
     private void printReport() {
         try {
             FileWriter writer = new FileWriter("academic_report.txt");
-            writer.write("Student Name : " + studentName + "\n");
-            writer.write("Roll Number : " + rollNumber + "\n");
-            writer.write("Registration Number : " + regNumber + "\n");
-            writer.write("Session : " + session + "\n\n");
+            writer.write("Name       :  " + studentName + "\n");
+            writer.write("Roll No.   :  " + rollNumber + "\n");
+            writer.write("Reg. No.   :  " + regNumber + "\n");
+            writer.write("Session    :  " + session + "\n\n");
             writer.write("Course\t\tCode\t\tGrade\n");
             for (int i = 0; i < courseNames.size(); i++) {
-                writer.write(courseNames.get(i) + "\t\t" + courseCodes.get(i) + "\t\t" + grades.get(i) + "\n");
+                writer.write(i + 1 + ". " + courseNames.get(i) + "\t\t" + courseCodes.get(i) + "\t\t" + grades.get(i) + "\n");
             }
+            
+            writer.write("\n");
+            writer.write("Average   :  " + calculateAverage() + "\n");
+            writer.write("Highest   :  " + Collections.max(grades) + "\n");
+            writer.write("Lowest   :  " + Collections.min(grades) + "\n");
+            
             writer.close();
             JOptionPane.showMessageDialog(null, "Academic report printed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
