@@ -1,11 +1,12 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-// import javax.swing.*;
+// import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-// import java.sql.*;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 
 public class HotelReservationSystemGUI {
     private static final String url = "jdbc:mysql://localhost:3306/hotel_db";
@@ -25,7 +26,7 @@ public class HotelReservationSystemGUI {
         frame.setLayout(null);
 
         JButton reserveButton = new JButton("Reserve a room");
-        reserveButton.setBounds(50, 50, 150, 30);
+        reserveButton.setBounds(40, 50, 150, 30);
         frame.add(reserveButton);
 
         JButton viewButton = new JButton("View Reservations");
@@ -33,7 +34,7 @@ public class HotelReservationSystemGUI {
         frame.add(viewButton);
 
         JButton getRoomButton = new JButton("Get Room Number");
-        getRoomButton.setBounds(50, 100, 150, 30);
+        getRoomButton.setBounds(40, 100, 150, 30);
         frame.add(getRoomButton);
 
         JButton updateButton = new JButton("Update Reservations");
@@ -41,14 +42,29 @@ public class HotelReservationSystemGUI {
         frame.add(updateButton);
 
         JButton deleteButton = new JButton("Delete Reservations");
-        deleteButton.setBounds(125, 150, 150, 30);
+        deleteButton.setBounds(120, 150, 150, 30);
         frame.add(deleteButton);
+
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBounds(146, 200, 100, 30);
+        frame.add(exitButton);
 
         reserveButton.addActionListener(e -> reserveRoom());
         viewButton.addActionListener(e -> viewReservations());
         getRoomButton.addActionListener(e -> getRoomNumber());
         updateButton.addActionListener(e -> updateReservation());
         deleteButton.addActionListener(e -> deleteReservation());
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    exit();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         frame.setVisible(true);
     }
@@ -335,5 +351,63 @@ public class HotelReservationSystemGUI {
     
         deleteFrame.setVisible(true);
     }
+
+    public static void exit() throws InterruptedException {
+        JFrame exitFrame = new JFrame("Exiting System");
+        exitFrame.setSize(300, 150);
+        exitFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        exitFrame.setLayout(null);
+        
+        JLabel messageLabel = new JLabel("Exiting System...");
+        messageLabel.setBounds(100, 20, 200, 30);
+        exitFrame.add(messageLabel);
+        
+        JLabel dotLabel = new JLabel("");
+        dotLabel.setBounds(100, 50, 200, 30);
+        exitFrame.add(dotLabel);
+        
+        exitFrame.setVisible(true);
+        
+        Thread thread = new Thread(() -> {
+            try {
+                for (int i = 5; i > 0; i--) {
+                    dotLabel.setText(dotLabel.getText() + ". ");
+                    Thread.sleep(1000);
+                }
+                exitFrame.dispose();
+                showThankYouMessage();
+                System.out.println("Thank You For Using This Hotel Reservation System!!!");
+                // System.exit(4000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
+    }
+
+    private static void showThankYouMessage() {
+        JFrame thankYouFrame = new JFrame("Thank You");
+        thankYouFrame.setSize(400, 150);
+        thankYouFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10)); // Centered alignment with 10px horizontal and vertical gap
+        thankYouFrame.add(panel);
+    
+        JLabel thankYouLabel = new JLabel("𝐓𝐡𝐚𝐧𝐤 𝐘𝐨𝐮 𝐅𝐨𝐫 𝐔𝐬𝐢𝐧𝐠 𝐓𝐡𝐢𝐬 𝐇𝐨𝐭𝐞𝐥 𝐑𝐞𝐬𝐞𝐫𝐯𝐚𝐭𝐢𝐨𝐧 𝐒𝐲𝐬𝐭𝐞𝐦!!!");
+        panel.add(thankYouLabel);
+    
+        thankYouFrame.setVisible(true);
+    
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent event) {
+                thankYouFrame.dispose();
+                System.exit(0);
+            }
+        });
+    
+        timer.setRepeats(false); // Ensure it only runs once
+        timer.start();
+    }
+    
     
 }
