@@ -29,8 +29,8 @@ public class HotelReservationSystemGUI {
 
     private Connection connection;
     String url = "jdbc:mysql://localhost/hotel_db";
-    String user = "root";
-    String password = "omayersql23@";
+    String user = "replace_with_your_own_name";
+    String password = "replace_with_your_own_password";
 
     public HotelReservationSystemGUI() {
         // connect to the database
